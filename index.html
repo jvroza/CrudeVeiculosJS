@@ -4,9 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro De Veículos</title>
+    <link rel="stylesheet" href="/index.css">
 </head>
 <body>
-    
+
+    <header></header>
+
+    <main>
+
+        <h1 id="tituloPrincipal">Cadastro de Carros</h1>
+
+        <form method="post">
+
+            <div>
+                <input id="modeloCarro" type="text" name="modelo" placeholder="Insira o modelo do carro" required>
+            </div>
+            <div>
+                <input id="marcaCarro" type="text" name="marca" placeholder="Insira a marca do carro" required>
+            </div>
+            <div>
+                <input id="anoCarro" type="text" name="ano" placeholder="Insira o ano do carro" required>
+            </div>
+            <div>
+                <input id="corCarro" type="text" name="cor" placeholder="Insira a cor do carro" required>
+            </div>
+            <div>
+                <input id="precoCarro" type="text" name="preco" placeholder="Insira o preço do carro" required>
+            </div>
+
+            <input id="btn-enviar" type="submit" value="Enviar">
+        
+        </form>
+    </main>
+
+    <footer></footer>
 
     <script src="/index.js"></script>
 </body>
