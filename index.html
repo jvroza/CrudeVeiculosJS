@@ -14,7 +14,7 @@
 
         <h1 id="tituloPrincipal">Cadastro de Carros</h1>
 
-        <form method="post">
+        <form id="form-carro">
 
             <div>
                 <input id="modeloCarro" type="text" name="modelo" placeholder="Insira o modelo do carro" required>
@@ -29,12 +29,19 @@
                 <input id="corCarro" type="text" name="cor" placeholder="Insira a cor do carro" required>
             </div>
             <div>
-                <input id="precoCarro" type="text" name="preco" placeholder="Insira o preço do carro" required>
+                <input id="precoCarro" type="text" inputmode="numeric" name="preco" placeholder="Insira o preço do carro" required>
             </div>
 
             <input id="btn-enviar" type="submit" value="Enviar">
         
         </form>
+
+        <div>
+            <input id="filtro-marca" type="text" name="filtro-marca" placeholder="Insira a marca">
+            <button id="filtro-por-marca"> Filtre Por Marca</button>
+        </div>
+
+        <ul id="lista-carros"></ul>
     </main>
 
     <footer></footer>
