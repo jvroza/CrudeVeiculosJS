@@ -13,6 +13,8 @@ function createCarro({modelo, marca, ano, cor, preco}) {
         preco: precoParaNumero(preco)
     }
 
+    console.log(newCarro)
+
     carros.push(newCarro)
     return newCarro
 
@@ -24,14 +26,17 @@ function precoParaNumero(valor) {
   return Number(valor.replace(/\D/g, "")) / 100;
 }
 
-const inputPreco = document.getElementById("precoCarro");
+function aplicarMascaraPreco(input) {
+  input.addEventListener("input", () => {
+    const digitos = input.value.replace(/\D/g, "");
+    input.value = digitos
+      ? (Number(digitos) / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
+      : "";
+  });
+}
 
-inputPreco.addEventListener("input", () => {
-  const digitos = inputPreco.value.replace(/\D/g, "");
-  inputPreco.value = digitos
-    ? (Number(digitos) / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
-    : "";
-});
+aplicarMascaraPreco(document.getElementById("precoCarro"));
+aplicarMascaraPreco(document.getElementById("atualiza-preco"));
 
 function renderCarros(listaCarros = carros) {
     const lista = document.getElementById("lista-carros")
@@ -61,6 +66,8 @@ form.addEventListener("submit", (event) => {
   form.reset();
 });
 
+// FILTRA POR MARCA
+
 const inputFilter = document.getElementById("filtro-marca")
 const btnFilter = document.getElementById("filtro-por-marca")
 
@@ -83,3 +90,68 @@ btnFilter.addEventListener("click", filterByBrad)
 
 
 // ATUALIZAR (update)
+
+const inputID = document.getElementById("atualiza-carro")
+const btnFilterID = document.getElementById("selecao-id")
+
+const pTitulo = document.getElementById("titulo-edicao")
+const inputNovaCor = document.getElementById("atualiza-cor")
+const inputNovoPreco = document.getElementById("atualiza-preco")
+const btnAtualizar = document.getElementById("btn-atualizar")
+
+let carroSelecionado = null
+
+function mostrarEdicao(visivel) {
+    const display = visivel ? "" : "none"
+
+    pTitulo.style.display = display
+    inputNovaCor.style.display = display
+    inputNovoPreco.style.display = display
+    btnAtualizar.style.display = display
+}
+
+mostrarEdicao(false)
+
+function selecionaCarro() {
+
+    const id = Number(inputID.value.trim())
+
+    const carro = carros.find((i) => {
+       return i.id === id
+    })
+
+    if (!carro) {
+        carroSelecionado = null
+        mostrarEdicao(false)
+        alert("ID não encontrado")
+        return
+    }
+
+    carroSelecionado = carro
+    mostrarEdicao(true)
+}
+
+btnFilterID.addEventListener("click", selecionaCarro)
+
+function atualizarCarro() {
+    if (!carroSelecionado) return
+
+    const novaCor = inputNovaCor.value.trim()
+
+    if (novaCor) carroSelecionado.cor = novaCor
+    if (inputNovoPreco.value) carroSelecionado.preco = precoParaNumero(inputNovoPreco.value)
+
+    renderCarros()
+
+    inputNovaCor.value = ""
+    inputNovoPreco.value = ""
+    inputID.value = ""
+
+    carroSelecionado = null
+    mostrarEdicao(false)
+}
+
+btnAtualizar.addEventListener("click", atualizarCarro)
+
+
+// DELETA (delete)
