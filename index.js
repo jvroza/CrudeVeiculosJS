@@ -1,4 +1,16 @@
-const carros = []
+function carregarCarros() {
+    try {
+        return JSON.parse(localStorage.getItem("carros")) || []
+    } catch {
+        return []
+    }
+}
+
+const carros = carregarCarros()
+
+function salvarCarros() {
+    localStorage.setItem("carros", JSON.stringify(carros))
+}
 
 //CRIA (create)
 
@@ -16,6 +28,7 @@ function createCarro({modelo, marca, ano, cor, preco}) {
     console.log(newCarro)
 
     carros.push(newCarro)
+    salvarCarros()
     return newCarro
 
 }
@@ -91,7 +104,7 @@ btnFilter.addEventListener("click", filterByBrad)
 
 // ATUALIZAR (update)
 
-const inputID = document.getElementById("atualiza-carro")
+const inputAtualizaID = document.getElementById("atualiza-carro")
 const btnFilterID = document.getElementById("selecao-id")
 
 const pTitulo = document.getElementById("titulo-edicao")
@@ -114,7 +127,7 @@ mostrarEdicao(false)
 
 function selecionaCarro() {
 
-    const id = Number(inputID.value.trim())
+    const id = Number(inputAtualizaID.value.trim())
 
     const carro = carros.find((i) => {
        return i.id === id
@@ -141,11 +154,12 @@ function atualizarCarro() {
     if (novaCor) carroSelecionado.cor = novaCor
     if (inputNovoPreco.value) carroSelecionado.preco = precoParaNumero(inputNovoPreco.value)
 
+    salvarCarros()
     renderCarros()
 
     inputNovaCor.value = ""
     inputNovoPreco.value = ""
-    inputID.value = ""
+    inputAtualizaID.value = ""
 
     carroSelecionado = null
     mostrarEdicao(false)
@@ -155,3 +169,25 @@ btnAtualizar.addEventListener("click", atualizarCarro)
 
 
 // DELETA (delete)
+
+const inputDeleteID = document.getElementById("excluir")
+const btnExcluir = document.getElementById("btn-excluir")
+
+function deletarCarro() {
+    const id = Number(inputDeleteID.value.trim())
+
+    const posicao = carros.findIndex((carro) => carro.id === id)
+
+    if (posicao === -1) {
+        alert("Veículo não encontrado.")
+        return
+    }
+
+    carros.splice(posicao, 1)
+
+    salvarCarros()
+    renderCarros()
+    inputDeleteID.value = ""
+}
+
+btnExcluir.addEventListener("click", deletarCarro)
